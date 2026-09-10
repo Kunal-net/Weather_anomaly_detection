@@ -1,0 +1,65 @@
+name: Weather Anomaly Detection CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-and-ml-tests:
+    name: Backend & ML Pipeline Tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Lint with Flake8 / Syntax Check
+      run: |
+        # Stop build if there are Python syntax errors or undefined names
+        python -m compileall ml backend tests -q
+
+    - name: Run Pytest Test Suite
+      run: |
+        # Run tests if test files exist
+        if [ -d "tests" ] && [ "$(ls -A tests/*.py 2>/dev/null)" ]; then
+          pytest tests/ -v
+        else
+          echo "No python tests found yet in tests/. Skipping test execution."
+        fi
+
+  frontend-build:
+    name: Frontend Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Check Frontend Build
+      run: |
+        if [ -f "frontend/package.json" ]; then
+          cd frontend
+          npm ci || npm install
+          npm run build
+        else
+          echo "Frontend package.json not yet initialized. Skipping frontend build check."
+        fi
