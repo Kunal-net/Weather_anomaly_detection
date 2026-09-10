@@ -105,8 +105,9 @@ Innovate X/
 - [x] **Phase 1: Project Blueprint & PRD Analysis** (Completed)
 - [x] **Phase 2: Dataset Profiling & Verification** (`output.csv` verified)
 - [x] **Phase 3: Vibe Coding Setup** (`rules.md`, `memory.md`, `GEMINI.md`, `.cursorrules`)
-- [ ] **Phase 4: ML Data Pipeline & Preprocessing** (Clean `output.csv`, compute baselines)
-- [ ] **Phase 5: Anomaly Engine & Explainability Training** (Isolation Forest + Z-scores)
-- [ ] **Phase 6: FastAPI REST Backend** (Endpoints `/predict`, `/locations`, `/weather`, `/history`)
-- [ ] **Phase 7: Interactive React Dashboard** (Map, Weather Gauges, Prediction Studio, Charts)
-- [ ] **Phase 8: SIH Presentation Script & Demo Polish**
+- [x] **Phase 4: ML Baseline Engine & Statistical Layer** (Prompts 1.1 - 1.8: `ml/baseline.py`, `ml/anomaly_engine.py`, `data/processed/baseline_statistics.json`)
+- [x] **Phase 5: ML Layer & Dual-Engine Fusion** (Prompts 1.9 - 1.15: `MLAnomalyEngine`, `DualAnomalyEngine`, 4-tier severity, anomaly type classifier)
+- [x] **Phase 6: Explainability Engine & Training Pipeline** (Prompts 1.16 - 1.20: `ml/explainability.py`, `ml/train.py`, self-validation, `ml/models/isolation_forest.joblib`, `scaler.joblib`)
+- [ ] **Phase 7: FastAPI REST Backend** (Endpoints `/predict`, `/locations`, `/weather`, `/history`)
+- [ ] **Phase 8: Interactive React Dashboard** (Map, Weather Gauges, Prediction Studio, Charts)
+- [ ] **Phase 9: SIH Presentation Script & Demo Polish**
