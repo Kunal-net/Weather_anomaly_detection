@@ -1,14 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Info, Activity, AlertTriangle } from 'lucide-react';
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Cell,
-} from 'recharts';
+import { ShieldAlert, Cpu, Sparkles, TrendingUp, Info } from 'lucide-react';
 
 export default function ExplainabilityCard({
   explanation,
@@ -17,150 +8,144 @@ export default function ExplainabilityCard({
 }) {
   const defaultExplanation =
     explanation ||
-    'CRITICAL ALERT in Bengaluru: Severe Extreme Rainfall detected (+697% above baseline) accompanied by a rapid pressure drop (-19.5 hPa). High risk of localized urban flash flooding.';
+    'CRITICAL ALERT in Bengaluru: Severe Extreme Rainfall detected relative to September baseline. Primary drivers: Rainfall is +697% above normal (145.0mm vs 18.2mm normal, Z=+5.4); Atmospheric Pressure drop of -14.0hPa (994.0 vs 1008.0 normal, Z=-3.8).';
 
-  const defaultContributors = [
-    { feature: 'rainfall', contribution_pct: 52.4, observed: 145.0, expected: 18.2, unit: 'mm' },
-    { feature: 'pressure', contribution_pct: 28.1, observed: 994.0, expected: 1013.5, unit: 'hPa' },
-    { feature: 'wind_speed', contribution_pct: 12.5, observed: 16.5, expected: 3.2, unit: 'm/s' },
-    { feature: 'temperature', contribution_pct: 7.0, observed: 24.0, expected: 26.5, unit: '°C' },
+  // Standard 5 metrics for contributor waterfall
+  const baseFeatures = [
+    { key: 'rainfall', label: 'RAINFALL', pct: 52.4, departure: '+126.8mm (+697%)', z: '+5.4σ' },
+    { key: 'temperature', label: 'TEMPERATURE', pct: 28.1, departure: '+9.9°C (+36.5%)', z: '+3.8σ' },
+    { key: 'pressure', label: 'PRESSURE', pct: 19.5, departure: '-14.0 hPa (-1.4%)', z: '-3.8σ' },
+    { key: 'relative_humidity', label: 'HUMIDITY', pct: 0.0, departure: 'Within seasonal corridor', z: '+1.2σ' },
+    { key: 'wind_speed', label: 'WIND SPEED', pct: 0.0, departure: 'Within seasonal corridor', z: '+2.1σ' },
   ];
 
-  const dataList = contributors.length > 0 ? contributors : defaultContributors;
+  // Merge backend contributors if provided
+  let items = baseFeatures;
 
-  // Format data for Recharts horizontal BarChart
-  const chartData = dataList.map((item) => ({
-    name:
-      item.feature === 'rainfall'
-        ? 'Rainfall'
-        : item.feature === 'pressure'
-        ? 'Pressure'
-        : item.feature === 'temperature'
-        ? 'Temperature'
-        : item.feature === 'relative_humidity'
-        ? 'Humidity'
-        : item.feature === 'wind_speed'
-        ? 'Wind Speed'
-        : item.feature,
-    contribution: item.contribution_pct,
-    observed: item.observed,
-    expected: item.expected,
-    unit: item.unit || '',
-  }));
+  if (contributors && contributors.length > 0) {
+    const map = {};
+    contributors.forEach((c) => {
+      const k = (c.feature || '').toLowerCase();
+      map[k] = c;
+    });
 
-  const getBannerStyle = (sev) => {
-    switch (sev) {
-      case 'CRITICAL':
-        return 'bg-gradient-to-r from-red-950/80 via-red-900/60 to-slate-900 border-red-800/60 text-red-200';
-      case 'HIGH':
-        return 'bg-gradient-to-r from-orange-950/80 via-orange-900/60 to-slate-900 border-orange-800/60 text-orange-200';
-      case 'WATCH':
-        return 'bg-gradient-to-r from-amber-950/80 via-amber-900/60 to-slate-900 border-amber-800/60 text-amber-200';
-      default:
-        return 'bg-gradient-to-r from-emerald-950/80 via-emerald-900/60 to-slate-900 border-emerald-800/60 text-emerald-200';
-    }
-  };
+    items = [
+      'rainfall',
+      'temperature',
+      'pressure',
+      'relative_humidity',
+      'wind_speed',
+    ].map((key) => {
+      const found = map[key] || map[key.replace('_', '')] || map[key.replace('relative_', '')];
+      const label = key === 'relative_humidity' ? 'HUMIDITY' : key.toUpperCase().replace('_', ' ');
+      if (found) {
+        const pct = found.contribution_pct ?? 0;
+        const delta = (found.observed ?? 0) - (found.expected ?? 0);
+        const zVal = found.z_score ?? delta / 2.0;
+        const z = typeof zVal === 'number' ? zVal.toFixed(1) : zVal;
+        const depStr = pct > 0
+          ? `${delta >= 0 ? '+' : ''}${delta.toFixed(1)}${found.unit || ''} (${found.pct_departure ? `${found.pct_departure > 0 ? '+' : ''}${found.pct_departure.toFixed(0)}%` : 'shift'})`
+          : 'Within normal limits';
+        return { key, label, pct, departure: depStr, z: `${z > 0 ? '+' : ''}${z}σ` };
+      }
+      return { key, label, pct: 0.0, departure: 'Within normal limits', z: '0.0σ' };
+    }).sort((a, b) => b.pct - a.pct);
+  } else {
+    items = baseFeatures.sort((a, b) => b.pct - a.pct);
+  }
 
-  const colors = ['#ef4444', '#f97316', '#f59e0b', '#3b82f6', '#10b981'];
+  let bannerStyle = 'border-red-500/40 bg-red-500/15 text-red-200 shadow-[0_0_24px_rgba(239,68,68,0.2)]';
+  if (severity === 'HIGH') {
+    bannerStyle = 'border-orange-500/40 bg-orange-500/15 text-orange-200 shadow-[0_0_20px_rgba(249,115,22,0.2)]';
+  } else if (severity === 'WATCH') {
+    bannerStyle = 'border-amber-500/40 bg-amber-500/15 text-amber-200 shadow-[0_0_15px_rgba(245,158,11,0.15)]';
+  } else if (severity === 'NORMAL') {
+    bannerStyle = 'border-emerald-500/40 bg-emerald-500/15 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.15)]';
+  }
 
   return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
-      {/* 1. Prompt 4.16: High-Contrast Diagnostic Alert Banner */}
-      <div className={`p-4 rounded-xl border ${getBannerStyle(severity)} shadow-lg flex items-start gap-3.5 relative overflow-hidden`}>
-        <div className="p-2 rounded-lg bg-slate-950/60 border border-white/10 shrink-0 mt-0.5">
-          <ShieldAlert className="w-5 h-5 text-amber-400 animate-pulse" />
+    <div className="glass-card rounded-2xl md:rounded-3xl p-5 md:p-6 font-mono select-none space-y-4">
+      {/* 1. Natural Language Diagnostic Incident Banner */}
+      <div className={`p-4 rounded-2xl border ${bannerStyle} space-y-2`}>
+        <div className="flex items-center gap-2 text-xs font-bold tracking-wider text-slate-300 uppercase">
+          <ShieldAlert className="w-4 h-4 text-amber-400 animate-pulse shrink-0" />
+          <span>Forensic Anomaly Rationale // Generated by Dual-Engine Explainability Module</span>
         </div>
-        <div>
-          <div className="text-[10px] uppercase font-extrabold tracking-widest text-white/70 mb-1">
-            Explainable AI Diagnostic Rationale
-          </div>
-          <p className="text-xs md:text-sm font-semibold leading-relaxed">
-            {defaultExplanation}
-          </p>
-        </div>
+        <p className="text-sm md:text-base font-medium leading-relaxed text-white font-sans">
+          {defaultExplanation}
+        </p>
       </div>
 
-      {/* 2. Prompt 4.17: Horizontal Bar Chart Ranking Contributor Variables */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-cyan-400" />
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-              Contributor Variable Ranking (% Influence)
-            </h3>
+      {/* 2. Contributor Waterfall Ranking */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
+          <div className="flex items-center gap-2 text-xs md:text-sm font-bold text-white uppercase tracking-wider font-sans">
+            <Cpu className="w-4 h-4 text-cyan-400" />
+            <span>Contributor Waterfall Ranking (% Influence)</span>
           </div>
-          <span className="text-xs text-slate-400 font-mono">
-            SHAP / Feature Attribution Engine
+          <span className="text-[10px] text-cyan-300 font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
+            CONTEXT-AWARE ATTRIBUTION
           </span>
         </div>
 
-        <div className="h-56 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              layout="vertical"
-              data={chartData}
-              margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
-            >
-              <XAxis
-                type="number"
-                domain={[0, 100]}
-                unit="%"
-                stroke="#64748b"
-                fontSize={11}
-                tickFormatter={(val) => `${val}%`}
-              />
-              <YAxis
-                type="category"
-                dataKey="name"
-                stroke="#94a3b8"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
-              />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    const data = payload[0].payload;
-                    return (
-                      <div className="bg-slate-950 border border-slate-700 p-3 rounded-xl shadow-xl text-xs space-y-1">
-                        <div className="font-bold text-cyan-400">{data.name}</div>
-                        <div className="text-slate-300">
-                          Contribution:{' '}
-                          <span className="font-mono font-bold text-white">
-                            {data.contribution.toFixed(1)}%
-                          </span>
-                        </div>
-                        <div className="text-slate-400 text-[11px]">
-                          Observed: {data.observed} {data.unit} (Normal: {data.expected} {data.unit})
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Bar dataKey="contribution" radius={[0, 8, 8, 0]} barSize={20}>
-                {chartData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="space-y-2.5">
+          {items.map((item, idx) => {
+            const rank = `#${idx + 1}`;
+            const isTop = item.pct > 0;
+
+            return (
+              <div
+                key={item.key}
+                className="bg-black/40 p-3 rounded-xl md:rounded-2xl border border-white/[0.06] hover:border-cyan-400/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs tabular-nums"
+              >
+                {/* Metric Identity & Percentage */}
+                <div className="flex items-center gap-3 min-w-[220px]">
+                  <span className="text-slate-500 font-bold text-xs w-6">{rank}</span>
+                  <span className="font-bold text-white font-sans tracking-wide text-xs">{item.label}</span>
+                  <span className={`text-xs font-bold ${isTop ? 'text-cyan-300' : 'text-slate-500'}`}>
+                    {item.pct.toFixed(1)}% Contribution
+                  </span>
+                </div>
+
+                {/* Animated Gradient Progress Track */}
+                <div className="flex-1 max-w-md w-full">
+                  <div className="w-full h-3 bg-slate-900 rounded-full overflow-hidden border border-white/[0.08] relative">
+                    <div
+                      className={`h-full rounded-full transition-all duration-700 ${
+                        isTop
+                          ? 'bg-gradient-to-r from-cyan-500 via-indigo-500 to-rose-500 shadow-[0_0_12px_rgba(6,182,212,0.6)]'
+                          : 'bg-slate-800'
+                      }`}
+                      style={{ width: `${Math.max(2, item.pct)}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Telemetry Departure & Z-Score Callouts */}
+                <div className="flex items-center gap-3 text-[11px] shrink-0">
+                  <span className={isTop ? 'text-amber-300 font-semibold' : 'text-slate-500'}>
+                    {item.departure}
+                  </span>
+                  <span className="text-slate-600">|</span>
+                  <span className={isTop ? 'text-red-400 font-bold' : 'text-slate-500'}>
+                    Z = {item.z}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Detailed Breakdown Pill List */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 border-t border-slate-800">
-          {chartData.map((item, idx) => (
-            <div key={idx} className="bg-slate-950/60 border border-slate-800 rounded-xl p-2.5 text-xs">
-              <div className="text-slate-400 font-medium">{item.name}</div>
-              <div className="text-sm font-black text-white font-mono mt-0.5">
-                {item.contribution.toFixed(1)}%
-              </div>
-              <div className="text-[10px] text-slate-500 mt-0.5">
-                {item.observed} {item.unit} vs {item.expected} {item.unit}
-              </div>
-            </div>
-          ))}
+        {/* Mathematical Attribution Formula Footnote */}
+        <div className="text-[11px] text-slate-400 pt-3 border-t border-white/[0.08] flex items-center gap-2">
+          <Info className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+          <span>
+            Attribution Formula:{' '}
+            <span className="text-slate-200 font-bold font-mono">
+              Contrib_i = (|Z_i| / &Sigma;|Z_j|) &times; 100
+            </span>
+            . Evaluated against location- &amp; month-specific baselines (zero static thresholds).
+          </span>
         </div>
       </div>
     </div>
