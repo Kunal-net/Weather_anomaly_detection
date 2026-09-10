@@ -1,5 +1,5 @@
 """
-Health Check & System Status Endpoint (Prompt 3.14).
+Health Check & System Status Endpoint.
 
 Returns operational readiness, ML model loading status, database connectivity,
 and application version.
@@ -25,7 +25,7 @@ router = APIRouter(tags=["Health"])
 
 @router.get("/health", response_model=HealthResponse, summary="System Health & Diagnostic Status")
 def get_health(db: Session = Depends(get_db)) -> HealthResponse:
-    """Returns system status 'ok', ML model loaded status, DB connectivity, and version (Prompt 3.14)."""
+    """Returns system status 'ok', ML model loaded status, DB connectivity, and version."""
     db_connected = False
     try:
         db.execute(text("SELECT 1"))

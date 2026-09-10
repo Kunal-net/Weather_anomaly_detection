@@ -3,7 +3,7 @@ Prediction Service for Weather Anomaly Inference & Database Logging.
 
 Provides end-to-end orchestration for evaluating weather observations against historical
 baselines, invoking dual-engine inference, calculating explainability contributors,
-and persisting anomaly events to the database (Prompt 3.12).
+and persisting anomaly events to the database.
 """
 
 from __future__ import annotations
@@ -33,7 +33,7 @@ class PredictionService:
         db: Optional[Session] = None,
         save_observation: bool = True,
     ) -> PredictionResponse:
-        """Evaluates a weather observation against historical baselines (Prompt 3.12).
+        """Evaluates a weather observation against historical baselines.
 
         Args:
             request (PredictionRequest): Validated observation payload.
@@ -87,7 +87,7 @@ class PredictionService:
             stat_score = 0.25
             ml_score = 0.25
 
-        # 3. Compute Explainability & Diagnostic Narrative (Prompt 3.13)
+        # 3. Compute Explainability & Diagnostic Narrative
         contributors = explanation_service.compute_contributors(
             z_scores=z_scores,
             observation=obs_dict,
@@ -104,7 +104,7 @@ class PredictionService:
 
         elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 3)
 
-        # 4. Optional Database Logging (Prompt 3.19)
+        # 4. Optional Database Logging
         if db is not None:
             try:
                 if save_observation:

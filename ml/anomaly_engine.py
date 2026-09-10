@@ -350,7 +350,7 @@ class MLAnomalyEngine:
         n_jobs: int = -1,
         baseline_calculator: Optional[BaselineCalculator] = None,
     ) -> None:
-        """Initializes MLAnomalyEngine with IsolationForest parameters (Prompt 1.9).
+        """Initializes MLAnomalyEngine with IsolationForest parameters.
 
         Args:
             n_estimators (int, optional): Number of base estimators. Defaults to 150.
@@ -383,7 +383,7 @@ class MLAnomalyEngine:
         return get_baseline(location, month)
 
     def prepare_features(self, df: pd.DataFrame) -> np.ndarray:
-        """Constructs standardized feature vectors for training or batch inference (Prompt 1.10).
+        """Constructs standardized feature vectors for training or batch inference.
 
         Combines:
         1. Raw weather metrics (5 features)
@@ -513,7 +513,7 @@ class MLAnomalyEngine:
         return vec
 
     def fit(self, X: Union[np.ndarray, pd.DataFrame]) -> MLAnomalyEngine:
-        """Fits StandardScaler and IsolationForest with fixed random seed (Prompt 1.11).
+        """Fits StandardScaler and IsolationForest with fixed random seed.
 
         Args:
             X (Union[np.ndarray, pd.DataFrame]): Training feature array or DataFrame.
@@ -537,7 +537,7 @@ class MLAnomalyEngine:
         return self
 
     def predict_raw_score(self, X: np.ndarray) -> Union[float, np.ndarray]:
-        """Predicts calibrated anomaly score [0.00, 1.00] from decision_function (Prompt 1.12).
+        """Predicts calibrated anomaly score [0.00, 1.00] from decision_function.
 
         In Scikit-learn Isolation Forest:
         - decision_function(X) returns > 0 for typical inliers (~ +0.15 to +0.25).
@@ -630,7 +630,7 @@ class DualAnomalyEngine:
         stat_weight: float = 0.4,
         ml_weight: float = 0.6,
     ) -> None:
-        """Initializes DualAnomalyEngine (Prompt 1.13).
+        """Initializes DualAnomalyEngine.
 
         Args:
             stat_engine (Optional[StatisticalEngine], optional): Statistical engine.
@@ -644,7 +644,7 @@ class DualAnomalyEngine:
         self.ml_weight: float = ml_weight
 
     def classify_severity(self, score: float) -> str:
-        """Maps anomaly score to standardized 4-tier severity levels (Prompt 1.14).
+        """Maps anomaly score to standardized 4-tier severity levels.
 
         - 0.00 - 0.39: NORMAL (Emerald Green)
         - 0.40 - 0.69: WATCH (Amber Yellow)
@@ -672,7 +672,7 @@ class DualAnomalyEngine:
         base: Dict[str, Dict[str, float]],
         z_scores: Dict[str, float],
     ) -> str:
-        """Classifies weather anomaly into specific meteorological event types (Prompt 1.15).
+        """Classifies weather anomaly into specific meteorological event types.
 
         Identifies:
         - Extreme Rainfall
@@ -737,7 +737,7 @@ class DualAnomalyEngine:
         location: str,
         month: int,
     ) -> Dict[str, Any]:
-        """Evaluates observation using dual-engine fusion (Prompt 1.13).
+        """Evaluates observation using dual-engine fusion.
 
         Formula:
             FinalScore = 0.4 * StatScore + 0.6 * MLScore
@@ -763,7 +763,7 @@ class DualAnomalyEngine:
                 observation, location, month, base=baseline
             )
             ml_score = float(self.ml_engine.predict_raw_score(feat_vec))
-            # Dual engine weighted blend (Prompt 1.13)
+            # Dual engine weighted blend
             final_score = self.stat_weight * stat_score + self.ml_weight * ml_score
         else:
             ml_score = stat_score

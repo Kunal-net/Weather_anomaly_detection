@@ -3,7 +3,7 @@ Singleton Model & Baseline Loader with Graceful Mock Fallbacks.
 
 Loads Isolation Forest, StandardScaler, and historical baseline statistics
 from disk. If artifacts are missing, gracefully initializes rule-based mock
-engines so the API works immediately without breaking (Prompt 3.11).
+engines so the API works immediately without breaking.
 """
 
 from __future__ import annotations

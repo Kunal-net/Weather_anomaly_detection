@@ -1,5 +1,5 @@
 r"""
-Historical Weather Corridors & Baseline Charting Endpoint (Prompt 3.18).
+Historical Weather Corridors & Baseline Charting Endpoint.
 
 Generates time series corridors comparing observed historical data points
 against location- and seasonal-expected normals and $\pm 2\sigma$ confidence bounds.
@@ -46,7 +46,7 @@ def get_historical_corridor(
         description="Number of historical days to return (1 to 365)",
     ),
 ) -> HistoricalSeriesResponse:
-    """Returns observed vs expected baseline corridors for charts (Prompt 3.18)."""
+    """Returns observed vs expected baseline corridors for charts."""
     # Normalize city name
     matched_city = None
     for city in model_loader.get_available_locations():

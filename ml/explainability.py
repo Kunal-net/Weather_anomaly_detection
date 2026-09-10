@@ -52,7 +52,7 @@ class ExplainabilityEngine:
 
         Ranked in descending order of contribution percentage.
 
-        Formatted fields per contributor (Prompt 1.17):
+        Formatted fields per contributor:
             - feature (str): Feature name (e.g. 'rainfall')
             - contribution_pct (float): Relative percentage contribution
             - observed (float): Observed weather value
@@ -113,7 +113,7 @@ class ExplainabilityEngine:
             }
             contributors.append(contributor)
 
-        # Rank in descending order of contribution percentage (Prompt 1.16)
+        # Rank in descending order of contribution percentage
         contributors.sort(key=lambda item: item["contribution_pct"], reverse=True)
         return contributors
 
@@ -125,7 +125,7 @@ class ExplainabilityEngine:
         location: Optional[str] = None,
         month_name: Optional[str] = None,
     ) -> str:
-        """Generates natural language diagnostic summary for disaster managers (Prompt 1.18).
+        """Generates natural language diagnostic summary for disaster managers.
 
         Produces clear, actionable explanations detailing top meteorological drivers,
         departures from seasonal baseline, and potential hazard implications.

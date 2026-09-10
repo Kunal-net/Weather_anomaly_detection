@@ -1,9 +1,9 @@
 """
-Prediction & Live Inference REST Endpoint (Prompt 3.19).
+Prediction & Live Inference REST Endpoint.
 
 Processes real-time weather observations, validates physical bounds, executes
 dual-engine anomaly detection, logs anomaly events to the database, and returns
-an actionable diagnostic payload in <15ms.
+an actionable diagnostic payload.
 """
 
 from __future__ import annotations
@@ -29,14 +29,14 @@ router = APIRouter(tags=["Predictions"])
     description=(
         "Evaluates a single weather observation against location- and season-specific "
         "historical baselines using Dual-Engine (Statistical Z-scores + Isolation Forest). "
-        "Automatically logs anomalous events to the database and returns in <15ms."
+        "Automatically logs anomalous events to the database."
     ),
 )
 def predict_anomaly(
     request: PredictionRequest,
     db: Session = Depends(get_db),
 ) -> PredictionResponse:
-    """Validates payload, invokes prediction_service, logs if anomalous, and returns PredictionResponse (Prompt 3.19)."""
+    """Validates payload, invokes prediction_service, logs if anomalous, and returns PredictionResponse."""
     response = prediction_service.predict_weather_anomaly(
         request=request,
         db=db,

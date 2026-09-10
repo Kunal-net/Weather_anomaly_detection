@@ -143,12 +143,14 @@ export default function App() {
             <div>
               <ExplainabilityCard
                 explanation={
-                  selectedLocData?.city === 'Bengaluru'
-                    ? MOCK_PREDICTION_RESPONSE.explanation
-                    : `Active monitoring for ${selectedLocData?.city || selectedLocData?.location}: Dual-engine evaluating departures from historical baseline.`
+                  selectedLocData?.explanation ||
+                  MOCK_PREDICTION_RESPONSE.explanation ||
+                  `Active monitoring for ${selectedLocData?.city || selectedLocData?.location}: Dual-engine evaluating departures from historical baseline.`
                 }
                 contributors={
-                  selectedLocData?.city === 'Bengaluru'
+                  selectedLocData?.contributors?.length
+                    ? selectedLocData.contributors
+                    : selectedLocData?.city === 'Bengaluru' || selectedLocData?.location === 'Bengaluru'
                     ? MOCK_PREDICTION_RESPONSE.contributors
                     : []
                 }

@@ -1,7 +1,7 @@
 """
 AeroSense-AI Weather Anomaly Detection & Monitoring Platform.
 
-FastAPI Application Entrypoint (Prompts 3.6 & 3.20).
+FastAPI Application Entrypoint.
 Initializes database schema, mounts modular routers under /api/v1, configures
 CORS middleware, and provides structured custom exception handlers.
 """
@@ -72,10 +72,10 @@ app = FastAPI(
     openapi_url="/openapi.json",
 )
 
-# CORS Middleware (Prompt 3.6)
+# CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -83,7 +83,7 @@ app.add_middleware(
 
 
 # ==============================================================================
-# Custom Exception Handlers (Prompt 3.20)
+# Custom Exception Handlers
 # ==============================================================================
 
 @app.exception_handler(HTTPException)
@@ -163,10 +163,9 @@ async def unhandled_exception_handler(request: Request, exc: Exception) -> JSONR
 
 
 # ==============================================================================
-# Router Inclusions (Prompt 3.20)
+# Router Inclusions — all routes mounted under /api/v1
 # ==============================================================================
 
-# API v1 Prefixed Routes
 app.include_router(health_router, prefix=settings.API_V1_STR)
 app.include_router(locations_router, prefix=settings.API_V1_STR)
 app.include_router(weather_router, prefix=settings.API_V1_STR)
@@ -174,16 +173,9 @@ app.include_router(anomalies_router, prefix=settings.API_V1_STR)
 app.include_router(history_router, prefix=settings.API_V1_STR)
 app.include_router(predictions_router, prefix=settings.API_V1_STR)
 
-# Direct Root Aliases (for backward compatibility and convenience)
-app.include_router(health_router, include_in_schema=False)
-app.include_router(locations_router, include_in_schema=False)
-app.include_router(weather_router, include_in_schema=False)
-app.include_router(anomalies_router, include_in_schema=False)
-app.include_router(history_router, include_in_schema=False)
-app.include_router(predictions_router, include_in_schema=False)
 
 
-# Root Welcome Endpoint (Prompt 3.6)
+# Root Welcome Endpoint
 @app.get("/", summary="Root Welcome Endpoint", tags=["Root"])
 def root_welcome() -> Dict[str, Any]:
     """Root endpoint welcoming users and directing to interactive API documentation."""

@@ -1,5 +1,5 @@
 """
-Weather Observation & Historical Normals Endpoint (Prompt 3.16).
+Weather Observation & Historical Normals Endpoint.
 
 Returns the latest weather observation for a given Indian city alongside
 precomputed seasonal expected normals and metric departures.
@@ -31,7 +31,7 @@ def get_weather_for_location(
     location: str = Path(..., description="City or station name (e.g. 'Bengaluru', 'Delhi')"),
     db: Session = Depends(get_db),
 ) -> WeatherSummaryResponse:
-    """Returns latest weather observation for given city alongside expected monthly normals (Prompt 3.16)."""
+    """Returns latest weather observation for given city alongside expected monthly normals."""
     # Normalize city name
     matched_city = None
     for city in model_loader.get_available_locations():

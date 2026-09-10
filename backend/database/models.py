@@ -1,7 +1,7 @@
 """
 SQLAlchemy Database Models for AeroSense-AI Weather Platform.
 
-Defines tables for WeatherObservationModel (Prompt 3.8) and AnomalyEventModel (Prompt 3.9).
+Defines tables for WeatherObservationModel and AnomalyEventModel.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ def utc_now():
 
 
 class WeatherObservationModel(Base):
-    """Stores incoming or historical weather observations (Prompt 3.8)."""
+    """Stores incoming or historical weather observations."""
 
     __tablename__ = "weather_observations"
 
@@ -58,7 +58,7 @@ class WeatherObservationModel(Base):
 
 
 class AnomalyEventModel(Base):
-    """Stores detected anomalies with scores and explainability diagnostic logs (Prompt 3.9)."""
+    """Stores detected anomalies with scores and explainability diagnostic logs."""
 
     __tablename__ = "anomaly_events"
 

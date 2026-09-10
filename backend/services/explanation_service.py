@@ -2,7 +2,7 @@
 Explanation Service for Weather Anomaly Diagnostic Reasoning.
 
 Calculates individual feature percentage contributions, percentage and absolute departures,
-and generates natural language diagnostic rationale for disaster management operators (Prompt 3.13).
+and generates natural language diagnostic rationale for disaster management operators.
 """
 
 from __future__ import annotations

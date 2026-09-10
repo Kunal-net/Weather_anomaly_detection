@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class PredictionRequest(BaseModel):
-    """Weather observation payload for anomaly evaluation with physical bounds validation (Prompt 3.2)."""
+    """Weather observation payload for anomaly evaluation with physical bounds validation."""
 
     location: str = Field(
         ...,
@@ -114,7 +114,7 @@ class PredictionRequest(BaseModel):
 
 
 class ContributorItem(BaseModel):
-    """Ranked meteorological contributor explaining an anomaly (Prompt 3.3)."""
+    """Ranked meteorological contributor explaining an anomaly."""
 
     feature: str = Field(..., description="Weather variable name (e.g. 'rainfall', 'temperature')")
     contribution_pct: float = Field(..., description="Percentage contribution to anomaly score (0-100%)")
@@ -128,7 +128,7 @@ class ContributorItem(BaseModel):
 
 
 class PredictionResponse(BaseModel):
-    """Complete anomaly prediction response with explainability (Prompt 3.4)."""
+    """Complete anomaly prediction response with explainability."""
 
     location: str = Field(..., description="Location evaluated")
     timestamp: str = Field(..., description="ISO timestamp of observation")
@@ -144,7 +144,7 @@ class PredictionResponse(BaseModel):
 
 
 class LocationInfo(BaseModel):
-    """Monitored station / Indian city metadata and current status (Prompt 3.5 & 3.15)."""
+    """Monitored station / Indian city metadata and current status."""
 
     city: str = Field(..., description="City / Station name")
     lat: float = Field(..., description="Latitude coordinate")
@@ -182,7 +182,7 @@ class LocationInfo(BaseModel):
 
 
 class HistoricalDataPoint(BaseModel):
-    """Historical time series point with baseline normal and corridor bounds (Prompt 3.5 & 3.18)."""
+    """Historical time series point with baseline normal and corridor bounds."""
 
     timestamp: str = Field(..., description="ISO date or timestamp")
     observed: float = Field(..., description="Observed weather value")
@@ -193,7 +193,7 @@ class HistoricalDataPoint(BaseModel):
 
 
 class HistoricalSeriesResponse(BaseModel):
-    """Historical corridor data series response for charts (Prompt 3.18)."""
+    """Historical corridor data series response for charts."""
 
     location: str = Field(..., description="City or station name")
     variable: str = Field(..., description="Weather variable (temperature, rainfall, pressure, wind_speed, relative_humidity)")
@@ -203,7 +203,7 @@ class HistoricalSeriesResponse(BaseModel):
 
 
 class WeatherSummaryResponse(BaseModel):
-    """Latest city weather observation with seasonal normal comparison (Prompt 3.16)."""
+    """Latest city weather observation with seasonal normal comparison."""
 
     location: str = Field(..., description="City name")
     city: Optional[str] = Field(default=None, description="Alias for location")
@@ -232,7 +232,7 @@ class WeatherSummaryResponse(BaseModel):
 
 
 class AnomalyEventResponse(BaseModel):
-    """Historical anomaly log entry (Prompt 3.9 & 3.17)."""
+    """Historical anomaly log entry."""
 
     id: int = Field(..., description="Unique event identifier")
     location: str = Field(..., description="City name")
@@ -259,7 +259,7 @@ class AnomalyEventResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    """System health and operational readiness status (Prompt 3.14)."""
+    """System health and operational readiness status."""
 
     status: str = Field(..., description="Operational status ('ok' or 'degraded')")
     model_loaded: bool = Field(..., description="True if ML model and baseline statistics are loaded")

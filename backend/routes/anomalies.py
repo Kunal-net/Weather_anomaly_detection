@@ -1,5 +1,5 @@
 """
-Anomaly Event History & National Incident Logs Endpoints (Prompt 3.17).
+Anomaly Event History & National Incident Logs Endpoints.
 
 Provides national and station-specific historical anomaly event streams with
 diagnostic explanations and contributor breakdowns.
@@ -54,7 +54,7 @@ def get_recent_anomalies(
     limit: int = Query(default=20, ge=1, le=100, description="Number of events to retrieve"),
     db: Session = Depends(get_db),
 ) -> List[AnomalyEventResponse]:
-    """Returns 20 most recent national anomalies across all monitored stations (Prompt 3.17)."""
+    """Returns 20 most recent national anomalies across all monitored stations."""
     events = (
         db.query(AnomalyEventModel)
         .order_by(AnomalyEventModel.timestamp.desc())
@@ -74,7 +74,7 @@ def get_anomalies_for_location(
     limit: int = Query(default=50, ge=1, le=200, description="Max history events to retrieve"),
     db: Session = Depends(get_db),
 ) -> List[AnomalyEventResponse]:
-    """Returns historical anomalies for a specific city (Prompt 3.17)."""
+    """Returns historical anomalies for a specific city."""
     matched_city = None
     for city in model_loader.get_available_locations():
         if city.lower() == location.strip().lower():

@@ -1,5 +1,5 @@
 """
-Monitored Locations & National Anomaly Map Endpoints (Prompt 3.15).
+Monitored Locations & National Anomaly Map Endpoints.
 
 Returns all 10 monitored Indian stations with geographic coordinates, elevation,
 active anomaly scores, and severity classifications.
@@ -29,7 +29,7 @@ router = APIRouter(tags=["Locations"])
 def get_locations(db: Session = Depends(get_db)) -> List[LocationInfo]:
     """Returns all 10 monitored Indian cities with lat, lon, elevation, current anomaly score,
 
-    and active severity level (Prompt 3.15).
+    and active severity level.
     """
     results: List[LocationInfo] = []
     current_month = datetime.now(timezone.utc).month

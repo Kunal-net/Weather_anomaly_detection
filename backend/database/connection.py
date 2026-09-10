@@ -229,7 +229,7 @@ def seed_initial_demo_data(db: Session) -> None:
 
 
 def init_db() -> None:
-    """Creates all database tables on application startup and seeds initial records (Prompt 3.10)."""
+    """Creates all database tables on application startup and seeds initial records."""
     try:
         logger.info("Initializing database schema...")
         Base.metadata.create_all(bind=engine)

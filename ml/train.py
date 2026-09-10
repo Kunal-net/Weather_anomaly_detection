@@ -32,7 +32,7 @@ def run_training_pipeline(
     model_path: Path = Path("ml/models/isolation_forest.joblib"),
     scaler_path: Path = Path("ml/models/scaler.joblib"),
 ) -> Tuple[DualAnomalyEngine, Dict[str, Any]]:
-    """Executes the full training and artifact generation pipeline (Prompt 1.19).
+    """Executes the full training and artifact generation pipeline.
 
     Args:
         data_path (Path): Path to clean weather observations CSV.
@@ -85,7 +85,7 @@ def run_training_pipeline(
     stat_engine = StatisticalEngine(baseline_calculator=calc, sigma_min=0.1)
     dual_engine = DualAnomalyEngine(stat_engine=stat_engine, ml_engine=ml_engine)
 
-    # 6. Execute Self-Validation Suite (Prompt 1.20)
+    # 6. Execute Self-Validation Suite
     validation_report = run_self_validation(dual_engine)
 
     print("\n" + "=" * 70)
@@ -95,7 +95,7 @@ def run_training_pipeline(
 
 
 def run_self_validation(dual_engine: DualAnomalyEngine) -> Dict[str, Any]:
-    """Runs self-validation checks on normal and extreme scenarios (Prompt 1.20).
+    """Runs self-validation checks on normal and extreme scenarios.
 
     Validates:
     - Normal observation score < 0.40 (NORMAL)
@@ -108,7 +108,7 @@ def run_self_validation(dual_engine: DualAnomalyEngine) -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: Validation metrics dictionary.
     """
-    print("\n🧪 Running Pipeline Self-Validation Suite (Prompt 1.20)...")
+    print("\n🧪 Running Pipeline Self-Validation Suite...")
     explain_engine = ExplainabilityEngine()
 
     # Scenario 1: Normal September observation in Bengaluru
