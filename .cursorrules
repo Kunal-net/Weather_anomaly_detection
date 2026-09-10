@@ -1,0 +1,16 @@
+# Weather Anomaly Detection System — Cursor Rules
+
+## Project Identity
+AI/ML-Powered Weather Anomaly Detection, Monitoring, and Explainability Platform for Smart India Hackathon (SIH).
+
+## Fundamental Rule
+- NEVER use naive static thresholds like `if temp > 35: anomaly = True`.
+- All anomalies represent deviation from historical location and seasonal normal baselines.
+- Core architecture: Statistical Z-scores + Isolation Forest -> Calibrated Score [0.0 - 1.0] -> Severity (Normal, Watch, High, Critical) -> Transparent Explainability -> FastAPI -> React Dashboard.
+
+## Code Standards
+- Python: Python 3.9+, type hints, modular functions, PEP 8.
+- ML: scikit-learn, joblib, pandas, numpy with deterministic seeds (random_state=42).
+- API: FastAPI, Pydantic v2 schemas, REST conventions, CORS enabled.
+- Frontend: React + Vite + Tailwind CSS + Lucide Icons + Recharts + Leaflet.
+- Refer to `memory.md` for project status and `rules.md` for full guidelines.
