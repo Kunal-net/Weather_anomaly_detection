@@ -298,8 +298,8 @@ builder.generate(
 
 # ----------------- MEMBER 4 -----------------
 m4_prompts = {
-    "Phase 1: Setup & Command-Center Design System": [
-        ("Prompt 4.1", "Initialize Vite + React in frontend/. Install Tailwind CSS, lucide-react, recharts, leaflet, react-leaflet, and axios. Configure tailwind.config.js with dark slate theme and severity colors: Normal (#10b981), Watch (#f59e0b), High (#f97316), Critical (#ef4444)."),
+    "Phase 1: Setup, Local Skills & Command-Center Theme": [
+        ("Prompt 4.1", "CRITICAL: Inspect and actively utilize all available agent skills downloaded on this Mac (including 'generative_ui', UI design skills, and any custom web/prototyping skills in ~/.gemini/ or environment). Initialize Vite + React in frontend/. Install Tailwind CSS, lucide-react, recharts, leaflet, react-leaflet, and axios. Configure tailwind.config.js with dark slate theme and severity colors: Normal (#10b981), Watch (#f59e0b), High (#f97316), Critical (#ef4444)."),
         ("Prompt 4.2", "Create frontend/src/services/api.js with Axios pointing to http://localhost:8000/api/v1. Include local mock fallback responses for every endpoint so frontend can be developed completely without running backend."),
         ("Prompt 4.3", "Create frontend/src/components/Navbar.jsx with AeroSense-AI brand logo, Team ILLUMINATI badge, live ticking clock, API status pill, and navigation tabs (National Map, Station Deep-Dive, What-If Studio, Historical Trends)."),
         ("Prompt 4.4", "Create frontend/src/components/ExecutiveSummaryCards.jsx displaying 4 metric counters: Total Stations Monitored, Critical Alerts, High Alerts, and Stations Normal with glowing status indicators.")
@@ -312,14 +312,14 @@ m4_prompts = {
     ],
     "Phase 3: Station Deep-Dive & Baseline Gauges": [
         ("Prompt 4.9", "Create frontend/src/components/StationDeepDive.jsx showing selected city name, coordinates, elevation, and overall anomaly status banner."),
-        ("Prompt 4.10", "In StationDeepDive.jsx, create 5 metric gauge cards: Temperature, Rainfall, Humidity, Pressure, Wind Speed. Show Observed Value, Expected Seasonal Normal, and Deviation Delta (color-coded red for +9.9 deg C)."),
+        ("Prompt 4.10", "Using installed generative_ui / design skills, create 5 interactive metric gauge cards in StationDeepDive.jsx: Temperature, Rainfall, Humidity, Pressure, Wind Speed. Show Observed Value, Expected Seasonal Normal, and Deviation Delta (color-coded red for +9.9 deg C)."),
         ("Prompt 4.11", "In StationDeepDive.jsx, add a visual progress bar or mini-corridor for each metric showing where observed reading sits relative to normal mu +/- 2*sigma corridor.")
     ],
     "Phase 4: What-If Prediction Studio (SIH Demo Feature)": [
         ("Prompt 4.12", "Create frontend/src/components/PredictionStudio.jsx with city selector (default: Bengaluru) and month selector."),
         ("Prompt 4.13", "In PredictionStudio.jsx, create 5 interactive sliders with numeric inputs: Temperature (10-50 deg C), Rainfall (0-200 mm), Humidity (10-100%), Pressure (970-1040 hPa), Wind Speed (0-40 m/s)."),
         ("Prompt 4.14", "In PredictionStudio.jsx, add quick-preset buttons for SIH demo: 'Normal September Day', 'Extreme Heatwave', 'Bengaluru Cloudburst (145mm Rain + 994 hPa)', 'Cyclone Depression'. Clicking populates sliders instantly."),
-        ("Prompt 4.15", "In PredictionStudio.jsx, trigger debounced POST /predict on slider changes. Show a large gauge with Anomaly Score (0-100%), animated severity badge (CRITICAL/HIGH/WATCH/NORMAL), and anomaly type tag.")
+        ("Prompt 4.15", "Using installed generative_ui skills, trigger debounced POST /predict on slider changes. Render a high-impact visual gauge with Anomaly Score (0-100%), animated severity badge (CRITICAL/HIGH/WATCH/NORMAL), and anomaly type tag.")
     ],
     "Phase 5: Explainability & Historical Trends": [
         ("Prompt 4.16", "Create frontend/src/components/ExplainabilityCard.jsx displaying natural-language diagnostic alert string in a high-contrast banner."),
@@ -332,9 +332,9 @@ m4_prompts = {
 
 builder.generate(
     "docs/prompts/Member_4_Frontend_Developer_Prompts.pdf",
-    "MEMBER 4: FRONTEND DEVELOPER — VIBE CODING ROADMAP",
+    "MEMBER 4: FRONTEND DEVELOPER - VIBE CODING ROADMAP",
     "Smart India Hackathon 2026 | Team ILLUMINATI (ID: 27113) | PS: SIH1642",
-    "Primary Folder: frontend/ | Dedicated Branch: feature/react-dashboard | Deliverables: 8 Components",
+    "Primary Folder: frontend/ | Dedicated Branch: feature/react-dashboard | Use All Local Mac Skills!",
     m4_prompts
 )
 

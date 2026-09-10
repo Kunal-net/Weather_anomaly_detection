@@ -182,6 +182,9 @@ You are the Frontend Developer for the SIH Weather Anomaly Detection Platform (A
 Repository: Innovate X
 Read rules.md, memory.md, and PROJECT_EXPLANATION.md for project context.
 
+CRITICAL INSTRUCTION - LEVERAGE INSTALLED SKILLS:
+Before writing code, inspect and actively utilize all available agent skills downloaded on this Mac (including `generative_ui`, UI design skills, web development skills, and any custom skills installed in ~/.gemini/ or your AI coding environment). Use them to render rich interactive visual widgets, live component previews, animated dials, and high-fidelity command-center interfaces.
+
 Your task is to build a modern, high-impact monitoring dashboard in frontend/:
 Tech Stack: React 18, Vite, Tailwind CSS, Lucide Icons, Leaflet / React-Leaflet, Recharts, Axios.
 

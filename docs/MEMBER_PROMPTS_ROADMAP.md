@@ -108,10 +108,11 @@
 ---
 
 # 👤 MEMBER 4: FRONTEND DEVELOPER
-**Branch:** `feature/react-dashboard` | **Primary Directory:** `frontend/`
+**Branch:** `feature/react-dashboard` | **Primary Directory:** `frontend/`  
+> 💡 **CRITICAL AI SKILL DIRECTIVE:** Before executing frontend prompts, instruct your AI coding assistant to inspect, activate, and utilize all local agent skills downloaded on this Mac (including `generative_ui`, UI design skills, and any custom web/prototyping skills located in `~/.gemini/` or your AI environment). Use them to render live interactive widgets, animated dials, and rich command-center interfaces.
 
 ### Phase 1: Setup & Design System
-- **Prompt 4.1:** "Initialize Vite + React in `frontend/`. Install Tailwind CSS, `lucide-react`, `recharts`, `leaflet`, `react-leaflet`, and `axios`. Configure `tailwind.config.js` with dark theme slate palette and custom severity colors: Normal (`#10b981`), Watch (`#f59e0b`), High (`#f97316`), Critical (`#ef4444`)."
+- **Prompt 4.1:** "CRITICAL: Inspect and leverage all available local agent skills downloaded on this Mac (including `generative_ui` and UI design skills in ~/.gemini/ or environment). Initialize Vite + React in frontend/. Install Tailwind CSS, lucide-react, recharts, leaflet, react-leaflet, and axios. Configure tailwind.config.js with dark slate theme and severity colors: Normal (#10b981), Watch (#f59e0b), High (#f97316), Critical (#ef4444)."
 - **Prompt 4.2:** "Create `frontend/src/services/api.js`. Create an Axios client configured to `http://localhost:8000/api/v1`. Include local mock fallback responses for every endpoint so the entire frontend can be built and previewed without running the backend."
 - **Prompt 4.3:** "Create `frontend/src/components/Navbar.jsx`. Include the AeroSense-AI brand logo, Team ILLUMINATI badge, live ticking clock, API status indicator, and tab navigation (`National Map`, `Station Deep-Dive`, `What-If Studio`, `Historical Trends`)."
 - **Prompt 4.4:** "Create `frontend/src/components/ExecutiveSummaryCards.jsx`. Display 4 responsive metric summary cards: Total Stations Monitored, Critical Alerts, High Alerts, and Stations Normal, with pulsing status indicators."
