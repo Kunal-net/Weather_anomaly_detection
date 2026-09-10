@@ -1,0 +1,50 @@
+{
+  "Bengaluru": {
+    "9": {
+      "temperature": {"mean": 27.1, "std": 1.8, "median": 26.8, "iqr": 2.5, "p5": 24.2, "p95": 30.1},
+      "rainfall": {"mean": 18.2, "std": 14.5, "median": 12.0, "iqr": 18.0, "p5": 0.0, "p95": 48.0},
+      "pressure": {"mean": 1008.0, "std": 2.1, "median": 1008.0, "iqr": 2.8, "p5": 1004.5, "p95": 1011.5},
+      "relative_humidity": {"mean": 74.0, "std": 8.2, "median": 75.0, "iqr": 11.0, "p5": 60.0, "p95": 88.0},
+      "wind_speed": {"mean": 3.5, "std": 1.2, "median": 3.4, "iqr": 1.5, "p5": 1.8, "p95": 5.8}
+    },
+    "1": {
+      "temperature": {"mean": 21.5, "std": 1.5, "median": 21.2, "iqr": 2.0, "p5": 18.5, "p95": 24.5},
+      "rainfall": {"mean": 1.2, "std": 3.0, "median": 0.0, "iqr": 1.0, "p5": 0.0, "p95": 6.0},
+      "pressure": {"mean": 1018.0, "std": 1.8, "median": 1018.0, "iqr": 2.2, "p5": 1015.0, "p95": 1021.0},
+      "relative_humidity": {"mean": 62.0, "std": 7.5, "median": 61.0, "iqr": 9.0, "p5": 50.0, "p95": 75.0},
+      "wind_speed": {"mean": 3.1, "std": 1.0, "median": 3.0, "iqr": 1.2, "p5": 1.5, "p95": 5.0}
+    },
+    "5": {
+      "temperature": {"mean": 32.5, "std": 2.2, "median": 32.2, "iqr": 3.0, "p5": 29.0, "p95": 36.5},
+      "rainfall": {"mean": 25.0, "std": 18.0, "median": 18.0, "iqr": 22.0, "p5": 0.0, "p95": 65.0},
+      "pressure": {"mean": 1006.0, "std": 2.0, "median": 1006.0, "iqr": 2.5, "p5": 1002.5, "p95": 1009.5},
+      "relative_humidity": {"mean": 65.0, "std": 9.0, "median": 64.0, "iqr": 12.0, "p5": 50.0, "p95": 80.0},
+      "wind_speed": {"mean": 4.2, "std": 1.4, "median": 4.0, "iqr": 1.8, "p5": 2.0, "p95": 6.8}
+    }
+  },
+  "Delhi": {
+    "5": {
+      "temperature": {"mean": 39.5, "std": 2.8, "median": 39.2, "iqr": 3.8, "p5": 35.0, "p95": 44.5},
+      "rainfall": {"mean": 12.0, "std": 10.5, "median": 5.0, "iqr": 12.0, "p5": 0.0, "p95": 32.0},
+      "pressure": {"mean": 1001.0, "std": 2.5, "median": 1001.0, "iqr": 3.2, "p5": 997.0, "p95": 1005.0},
+      "relative_humidity": {"mean": 38.0, "std": 8.5, "median": 37.0, "iqr": 11.0, "p5": 25.0, "p95": 52.0},
+      "wind_speed": {"mean": 4.8, "std": 1.6, "median": 4.6, "iqr": 2.0, "p5": 2.4, "p95": 7.8}
+    },
+    "1": {
+      "temperature": {"mean": 14.2, "std": 2.1, "median": 14.0, "iqr": 2.8, "p5": 10.5, "p95": 18.0},
+      "rainfall": {"mean": 8.0, "std": 7.0, "median": 2.0, "iqr": 8.0, "p5": 0.0, "p95": 22.0},
+      "pressure": {"mean": 1019.5, "std": 2.0, "median": 1019.5, "iqr": 2.6, "p5": 1016.0, "p95": 1023.0},
+      "relative_humidity": {"mean": 78.0, "std": 9.0, "median": 79.0, "iqr": 12.0, "p5": 62.0, "p95": 92.0},
+      "wind_speed": {"mean": 2.8, "std": 1.1, "median": 2.6, "iqr": 1.4, "p5": 1.2, "p95": 4.8}
+    }
+  },
+  "Mumbai": {
+    "7": {
+      "temperature": {"mean": 29.5, "std": 1.4, "median": 29.4, "iqr": 1.8, "p5": 27.2, "p95": 31.8},
+      "rainfall": {"mean": 85.0, "std": 45.0, "median": 72.0, "iqr": 55.0, "p5": 15.0, "p95": 180.0},
+      "pressure": {"mean": 1003.5, "std": 2.2, "median": 1003.5, "iqr": 2.8, "p5": 999.5, "p95": 1007.0},
+      "relative_humidity": {"mean": 88.0, "std": 6.0, "median": 89.0, "iqr": 7.5, "p5": 78.0, "p95": 96.0},
+      "wind_speed": {"mean": 6.2, "std": 2.0, "median": 6.0, "iqr": 2.5, "p5": 3.2, "p95": 9.8}
+    }
+  }
+}
