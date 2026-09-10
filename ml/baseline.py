@@ -529,6 +529,8 @@ class BaselineCalculator:
 
         return cls.from_dict(data, sigma_min=sigma_min)
 
+    from_json = load_from_json
+
 
 def compute_baseline_table(
     df: pd.DataFrame, sigma_min: float = 0.1
