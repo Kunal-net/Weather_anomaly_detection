@@ -10,11 +10,11 @@ class SimplePDFBuilder:
         self.margin_top = 40.0
         self.margin_bottom = 40.0
 
-    def generate(self, filename, title, subtitle, role_info, prompts_by_phase):
+    def generate(self, filename, title, subtitle, role_info, prompts_by_phase, callout=None):
         pages_streams = []
-        current_stream = []
         current_page = 1
-        y = self.page_height
+        y = 735.0
+        current_stream = []
 
         def start_page():
             nonlocal y, current_stream
@@ -44,6 +44,21 @@ class SimplePDFBuilder:
                 start_page()
 
         start_page()
+
+        # Render top callout alert if provided on Page 1
+        if callout:
+            c_title, c_desc = callout
+            c_lines = textwrap.wrap(c_desc, width=95)
+            c_height = 18 + len(c_lines) * 11 + 6
+            current_stream.append(f"0.98 0.95 0.88 rg {self.margin_x} {y - c_height} 523 {c_height} re f")
+            current_stream.append(f"0.92 0.65 0.15 RG 1 w {self.margin_x} {y - c_height} 523 {c_height} re S")
+            current_stream.append(f"0.85 0.55 0.10 rg {self.margin_x} {y - c_height} 4 {c_height} re f")
+            current_stream.append(f"0.70 0.40 0.05 rg BT /F2 9.5 Tf {self.margin_x + 12} {y - 14} Td ({self.escape_pdf(c_title)}) Tj ET")
+            ly = y - 26
+            for cl in c_lines:
+                current_stream.append(f"0.30 0.25 0.15 rg BT /F1 8.5 Tf {self.margin_x + 12} {ly} Td ({self.escape_pdf(cl)}) Tj ET")
+                ly -= 11
+            y = y - c_height - 10
 
         phase_colors = [
             (0.06, 0.72, 0.51), # Emerald
@@ -335,7 +350,11 @@ builder.generate(
     "MEMBER 4: FRONTEND DEVELOPER - VIBE CODING ROADMAP",
     "Smart India Hackathon 2026 | Team ILLUMINATI (ID: 27113) | PS: SIH1642",
     "Primary Folder: frontend/ | Dedicated Branch: feature/react-dashboard | Use All Local Mac Skills!",
-    m4_prompts
+    m4_prompts,
+    callout=(
+        "CRITICAL INSTRUCTION - LEVERAGE INSTALLED MAC AGENT SKILLS:",
+        "Before writing code, inspect and actively utilize all available agent skills downloaded on this Mac (including 'generative_ui', UI design skills, web development skills, and custom skills in ~/.gemini/ or environment). Use them to render rich interactive visual widgets, SVG dials, live previews, and command-center interfaces."
+    )
 )
 
 # ----------------- MEMBER 5 -----------------
