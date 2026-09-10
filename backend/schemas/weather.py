@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 
 class PredictionRequest(BaseModel):
@@ -161,6 +161,25 @@ class LocationInfo(BaseModel):
     wind_speed: Optional[float] = Field(default=None, description="Latest wind speed in m/s")
     rainfall: Optional[float] = Field(default=None, description="Latest rainfall in mm")
 
+    # Dual alias compatibility for frontend components
+    location: Optional[str] = Field(default=None, description="Alias for city")
+    severity: Optional[str] = Field(default=None, description="Alias for current_severity")
+    anomaly_score: Optional[float] = Field(default=None, description="Alias for current_score")
+
+    @model_validator(mode="after")
+    def populate_aliases(self) -> LocationInfo:
+        if self.location is None:
+            self.location = self.city
+        if self.severity is None:
+            self.severity = self.current_severity
+        if self.anomaly_score is None:
+            self.anomaly_score = self.current_score
+        if self.current_anomaly_score is None:
+            self.current_anomaly_score = self.current_score
+        if self.active_severity_level is None:
+            self.active_severity_level = self.current_severity
+        return self
+
 
 class HistoricalDataPoint(BaseModel):
     """Historical time series point with baseline normal and corridor bounds (Prompt 3.5 & 3.18)."""
@@ -187,6 +206,7 @@ class WeatherSummaryResponse(BaseModel):
     """Latest city weather observation with seasonal normal comparison (Prompt 3.16)."""
 
     location: str = Field(..., description="City name")
+    city: Optional[str] = Field(default=None, description="Alias for location")
     timestamp: str = Field(..., description="ISO observation timestamp")
     month: int = Field(..., description="Observation month")
     observed: Dict[str, float] = Field(..., description="Latest weather readings")
@@ -194,9 +214,21 @@ class WeatherSummaryResponse(BaseModel):
     departures: Dict[str, float] = Field(..., description="Absolute departures (observed - expected)")
     percentage_departures: Dict[str, float] = Field(..., description="Percentage departures relative to normal")
     current_anomaly_score: float = Field(..., description="Current anomaly score")
+    anomaly_score: Optional[float] = Field(default=None, description="Alias for current_anomaly_score")
     current_severity: str = Field(..., description="Current severity level")
+    severity: Optional[str] = Field(default=None, description="Alias for current_severity")
     anomaly_type: str = Field(..., description="Current anomaly type")
     explanation: str = Field(..., description="Diagnostic summary")
+
+    @model_validator(mode="after")
+    def populate_aliases(self) -> WeatherSummaryResponse:
+        if self.city is None:
+            self.city = self.location
+        if self.severity is None:
+            self.severity = self.current_severity
+        if self.anomaly_score is None:
+            self.anomaly_score = self.current_anomaly_score
+        return self
 
 
 class AnomalyEventResponse(BaseModel):
@@ -204,13 +236,26 @@ class AnomalyEventResponse(BaseModel):
 
     id: int = Field(..., description="Unique event identifier")
     location: str = Field(..., description="City name")
+    city: Optional[str] = Field(default=None, description="Alias for location")
     timestamp: str = Field(..., description="Timestamp of event occurrence")
     anomaly_score: float = Field(..., description="Anomaly score [0.00, 1.00]")
+    current_score: Optional[float] = Field(default=None, description="Alias for anomaly_score")
     severity: str = Field(..., description="Severity tier")
+    current_severity: Optional[str] = Field(default=None, description="Alias for severity")
     anomaly_type: str = Field(..., description="Anomaly classification")
     contributors: List[ContributorItem] = Field(default_factory=list, description="Top contributors")
     explanation: str = Field(..., description="Natural language diagnostic explanation")
     created_at: str = Field(..., description="Database record creation timestamp")
+
+    @model_validator(mode="after")
+    def populate_aliases(self) -> AnomalyEventResponse:
+        if self.city is None:
+            self.city = self.location
+        if self.current_severity is None:
+            self.current_severity = self.severity
+        if self.current_score is None:
+            self.current_score = self.anomaly_score
+        return self
 
 
 class HealthResponse(BaseModel):
